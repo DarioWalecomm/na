@@ -149,35 +149,26 @@ panid_list_get_token = None
 panid_list_set_token = None
 panid_list_bulk_set_token = None
 pan_rediscover_req_token = None
-def mqtt_subida(ip_to_mqtt,payoad_to_mqtt,coap_to_mqtt):
+def mqtt_subida(ip_to_mqtt,payload_to_mqtt,coap_to_mqtt):
     print("llego a al subida:")
     print(coap_to_mqtt)
-    str(payoad_to_mqtt)
+    str(payload_to_mqtt)
     print(payload_to_mqtt)
     if coap_to_mqtt == "WHALECOMM_TIEMPO":
+        client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/TIEMPO","60")
         print("sube tiempo")
     elif coap_to_mqtt == "WHALECOMM_CORTE":
+        client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/CORTE","123")
         print("sube tiempo")
     elif coap_to_mqtt == "WHALECOMM_BETA":
+        client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/WHALECOMM_BETA","3454")
         print("sube beta")
     elif coap_to_mqtt == "WHALECOMM_FACTURACION":
+        client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/FACTURACION","345")
         print("sube facturacion")
     elif coap_to_mqtt == "WHALECOMM_ID":
+        client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/ID","324")
         print("sube id")
-    str(payoad_to_mqtt)
-    if "," in payoad_to_mqtt :
-        if payoad_to_mqtt[1] == "0" : 
-            client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/ESTADO_LED_ROJO","False")
-        else : 
-            client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/ESTADO_LED_ROJO","True")
-        if payoad_to_mqtt[4] == "0" :
-            client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/ESTADO_LED_VERDE","False")
-        else:
-            client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/ESTADO_LED_VERDE","True")
-        else :
-            client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/LITORS_STRING","dfdfd")
-        # Termina subida de datos mqttt
-        #si llega un mensaje en el topico instruccion  
 
 class IPv6Factory(object):
     coap_port_factory = {COAP_PORT: ipv6.CoAPFactory()}
