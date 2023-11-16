@@ -150,6 +150,10 @@ panid_list_set_token = None
 panid_list_bulk_set_token = None
 pan_rediscover_req_token = None
 def mqtt_subida(ip_to_mqtt,payoad_to_mqtt,coap_to_mqtt):
+    print("llego a al subida:")
+    print(coap_to_mqtt)
+    str(payoad_to_mqtt)
+    print(payload_to_mqtt)
     if coap_to_mqtt == "WHALECOMM_TIEMPO":
         print("sube tiempo")
     elif coap_to_mqtt == "WHALECOMM_CORTE":
@@ -992,6 +996,8 @@ class SpinelCliCmd(Cmd, SpinelCodec):
                             # Handle ev charger CoAP message
                             if h.code == ipv6.COAP_METHOD_CODE_POST:
                                 print("WhaleComm telemetry: {}".format(list(p.payload)))
+                                payload_to_mqtt_Send=format(list(p.payload))
+                                mqtt_subida(pkt.ipv6_header.source_address,payload_to_mqtt_Send,coap_packet_type)
                                 if h.type == ipv6.COAP_TYPE_CON:
                                     try:
                                         srcIPAddress = pkt.ipv6_header.destination_address
@@ -1007,6 +1013,8 @@ class SpinelCliCmd(Cmd, SpinelCodec):
                             # Handle ev charger CoAP message
                             if h.code == ipv6.COAP_METHOD_CODE_POST:
                                 print("WhaleComm calibracion: {}".format(list(p.payload)))
+                                payload_to_mqtt_Send=format(list(p.payload))
+                                mqtt_subida(pkt.ipv6_header.source_address,payload_to_mqtt_Send,coap_packet_type)
                                 if h.type == ipv6.COAP_TYPE_CON:
                                     try:
                                         srcIPAddress = pkt.ipv6_header.destination_address
@@ -1022,6 +1030,8 @@ class SpinelCliCmd(Cmd, SpinelCodec):
                             # Handle ev charger CoAP message
                             if h.code == ipv6.COAP_METHOD_CODE_POST:
                                 print("WhaleComm facturacion: {}".format(list(p.payload)))
+                                payload_to_mqtt_Send=format(list(p.payload))
+                                mqtt_subida(pkt.ipv6_header.source_address,payload_to_mqtt_Send,coap_packet_type)
                                 if h.type == ipv6.COAP_TYPE_CON:
                                     try:
                                         srcIPAddress = pkt.ipv6_header.destination_address
@@ -1038,6 +1048,8 @@ class SpinelCliCmd(Cmd, SpinelCodec):
                             # Handle ev charger CoAP message
                             if h.code == ipv6.COAP_METHOD_CODE_POST:
                                 print("WhaleComm tiempo: {}".format(list(p.payload)))
+                                payload_to_mqtt_Send=format(list(p.payload))
+                                mqtt_subida(pkt.ipv6_header.source_address,payload_to_mqtt_Send,coap_packet_type)
                                 if h.type == ipv6.COAP_TYPE_CON:
                                     try:
                                         srcIPAddress = pkt.ipv6_header.destination_address
@@ -1053,6 +1065,8 @@ class SpinelCliCmd(Cmd, SpinelCodec):
                             # Handle ev charger CoAP message
                             if h.code == ipv6.COAP_METHOD_CODE_POST:
                                 print("WhaleComm ID: {}".format(list(p.payload)))
+                                payload_to_mqtt_Send=format(list(p.payload))
+                                mqtt_subida(pkt.ipv6_header.source_address,payload_to_mqtt_Send,coap_packet_type)
                                 if h.type == ipv6.COAP_TYPE_CON:
                                     try:
                                         srcIPAddress = pkt.ipv6_header.destination_address
@@ -1068,6 +1082,8 @@ class SpinelCliCmd(Cmd, SpinelCodec):
                             # Handle ev charger CoAP message
                             if h.code == ipv6.COAP_METHOD_CODE_POST:
                                 print("WhaleComm beta: {}".format(list(p.payload)))
+                                payload_to_mqtt_Send=format(list(p.payload))
+                                mqtt_subida(pkt.ipv6_header.source_address,payload_to_mqtt_Send,coap_packet_type)
                                 if h.type == ipv6.COAP_TYPE_CON:
                                     try:
                                         srcIPAddress = pkt.ipv6_header.destination_address
@@ -1083,6 +1099,9 @@ class SpinelCliCmd(Cmd, SpinelCodec):
                             # Handle ev charger CoAP message
                             if h.code == ipv6.COAP_METHOD_CODE_POST:
                                 print("WhaleComm corte: {}".format(list(p.payload)))
+                                payload_to_mqtt_Send=format(list(p.payload))
+                                mqtt_subida(pkt.ipv6_header.source_address,payload_to_mqtt_Send,coap_packet_type)
+
                                 if h.type == ipv6.COAP_TYPE_CON:
                                     try:
                                         srcIPAddress = pkt.ipv6_header.destination_address
@@ -1092,7 +1111,6 @@ class SpinelCliCmd(Cmd, SpinelCodec):
                                         print("Send acknowledgement")
                                         print(coap_req)
                                         self.wpan_api.ip_send(coap_req)
-                                        mqtt_subida(pkt.ipv6_header.source_address,payload_to_mqtt_Send,coap_packet_type)
                                     except:
                                         print("Failed to send acknowledgement")
                                         print(traceback.format_exc())
@@ -2473,15 +2491,6 @@ class SpinelCliCmd(Cmd, SpinelCodec):
 
             if coap_req is not None:
                 self.wpan_api.ip_send(coap_req)
-                print("\n")
-                print("coap:\n")
-                print(coap_req)
-                print("\n")
-                print("self \n")
-                print(self)
-                print("\n")
-                print("coapsel whhan coap \n")
-                print(self.wpan_api.ip_send(coap_req))
                 # Let handler print result
         except:
             print("Fail")
