@@ -154,6 +154,24 @@ def mqtt_subida(ip_to_mqtt,payload_to_mqtt,coap_to_mqtt):
     print(coap_to_mqtt)
     str(payload_to_mqtt)
     print(payload_to_mqtt)
+    if coap_to_mqtt == "WHALECOMM_CONSUMO_UPDATE"
+    str(payload_to_mqtt)
+    B1 = payload_to_mqtt[0]
+    B1 = int(B1)
+    B1 = hex(B1)
+    B1 = B1 [2:]
+    B2 = payload_to_mqtt[1]
+    B2 = int(B2)
+    B2 = hex(B2)
+    B2 = B2 [2:]
+    B3 = payload_to_mqtt[2]
+    B3 = int(B3)
+    B3 = hex(B3)
+    B3 = B3 [2:]
+    payload_to_mqtt =B3+B2+B1
+    payload_to_mqtt=(int(payload_to_mqtt, 16))
+    client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/LITROS",payload_to_mqtt)
+
     if coap_to_mqtt == "WHALECOMM_TIEMPO":
         client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/TIEMPO","60")
         print("sube tiempo")
