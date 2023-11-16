@@ -155,7 +155,8 @@ def mqtt_subida(ip_to_mqtt,payload_to_mqtt,coap_to_mqtt):
     str(payload_to_mqtt)
     print(payload_to_mqtt)
     if coap_to_mqtt == "WHALECOMM_CONSUMO_UPDATE":
-        str(payload_to_mqtt)
+        payload_to_mqtt = payload_to_mqtt[1:-1]
+        payload_to_mqtt = payload_to_mqtt.split(", ")
         B1 = payload_to_mqtt[0]
         B1 = int(B1)
         B1 = hex(B1)
@@ -172,19 +173,19 @@ def mqtt_subida(ip_to_mqtt,payload_to_mqtt,coap_to_mqtt):
         payload_to_mqtt=(int(payload_to_mqtt, 16))
         client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/LITROS",payload_to_mqtt)
     if coap_to_mqtt == "WHALECOMM_TIEMPO":
-        client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/TIEMPO","60")
+        client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/TIEMPO",60)
         print("sube tiempo")
     elif coap_to_mqtt == "WHALECOMM_CORTE":
-        client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/CORTE","123")
+        client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/CORTE",23)
         print("sube tiempo")
     elif coap_to_mqtt == "WHALECOMM_BETA":
-        client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/WHALECOMM_BETA","3454")
+        client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/WHALECOMM_BETA",3454)
         print("sube beta")
     elif coap_to_mqtt == "WHALECOMM_FACTURACION":
-        client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/FACTURACION","345")
+        client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/FACTURACION",345)
         print("sube facturacion")
     elif coap_to_mqtt == "WHALECOMM_ID":
-        client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/ID","324")
+        client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/ID",332)
         print("sube id")
 
 class IPv6Factory(object):
@@ -426,7 +427,7 @@ class SpinelCliCmd(Cmd, SpinelCodec):
             print("Module readline unavailable")
         else:
             import rlcompleter
-            readline.parse_and_bind('bind ^I rl_complete')
+            readline.parse_and_bind('%bind ^I rl_complete')
 
         # if hasattr(stream, 'pipe'):
         #     self.wpan_api.queue_wait_for_prop(SPINEL.PROP_LAST_STATUS,
@@ -515,16 +516,17 @@ class SpinelCliCmd(Cmd, SpinelCodec):
                 ip_send_wc(coap_req)
                 print(A)
             elif b == "b": #PARA BETA
-                load_fwv_req_token = random.getrandbits(DEFAULT_TKL*8)
-                ipnodo="2020:abcd::212:4b00:29b6:8dde"
-                ipborderrouter="2020:abcd::212:4b00:2949:58b4"
-                src_addr = format(ipborderrouter)
-                dest_addr = format(ipnodo)
-                uri_path = "time --tiempo c 20 0 0 0 0 0"
-                coap_req = ipv6_factory.build_coap_request(src_addr, dest_addr, ipv6.COAP_TYPE_CON, ipv6.COAP_METHOD_CODE_GET, uri_path, tkl=DEFAULT_TKL, token=load_fwv_req_token) 
-                print(src_addr, dest_addr, ipv6_factory)
+
+                #load_fwv_req_token = random.getrandbits(DEFAULT_TKL*8)
+                #ipnodo="2020:abcd::212:4b00:29b6:8dde"
+                #ipborderrouter="2020:abcd::212:4b00:2949:58b4"
+                #src_addr = format(ipborderrouter)
+                #dest_addr = format(ipnodo)
+                #uri_path = "time --tiempo c 20 0 0 0 0 0"
+                #coap_req = ipv6_factory.build_coap_request(src_addr, dest_addr, ipv6.COAP_TYPE_CON, ipv6.COAP_METHOD_CODE_GET, uri_path, tkl=DEFAULT_TKL, token=load_fwv_req_token) 
+                #print(src_addr, dest_addr, ipv6_factory)
                 #coap_req = bytearray(b"`\x00\x00\x00\x00\x18\x11@  \xab\xcd\x00\x00\x00\x00\x02\x12K\x00)IZ\xef  \xab\xcd\x00\x00\x00\x00\x02\x12K\x00)\xb6\x8d\xc3\x163\x163\x00\x18\x04\xbaH\x01\x00\x01\xf7\xe7\xe8i\xcd\'R\x9f\xb3led")
-                ip_send_wc(coap_req)
+                #ip_send_wc(coap_req)
                 print(A)
             elif b == "i": #PARA CALIBACION
                 load_fwv_req_token = random.getrandbits(DEFAULT_TKL*8)
