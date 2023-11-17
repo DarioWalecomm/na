@@ -305,11 +305,12 @@ class IPv6Factory(object):
                             byte0=None, byte1=None, byte2=None, byte3=None, byte4=None, byte5=None,
                             payload=None, hop_limit=64, msg_id=None,tkl= 0, token=None):
         coap_options = []
-
+        print(option_list)
         # Add and sort options
         if uri_path is not None:
             coap_options.append(ipv6.CoAPOption(ipv6.COAP_OPTION_URI_PATH, uri_path.encode('utf-8')))
         if option_list is not None:
+            
             coap_options += option_list
         coap_options.sort(key=lambda option: option.option_num)
 
@@ -523,12 +524,12 @@ class SpinelCliCmd(Cmd, SpinelCodec):
                 dest_addr = format(ipnodo)
                 uri_path = "time"
                 option_list = "--beta"
-                par_0 ="10"
-                par_1 ="27"
-                par_2 ="0"
-                par_3 ="0"
-                par_4 ="0"
-                par_5 ="0"
+                par_0 = 10
+                par_1 = 27
+                par_2 = 0 
+                par_3 = 0
+                par_4 = 0 
+                par_5 = 0 
                 coap_req = ipv6_factory.build_coap_request(src_addr, dest_addr, ipv6.COAP_TYPE_CON, ipv6.COAP_METHOD_CODE_GET, uri_path, option_list, par_0, par_1, par_2, par_3, par_4, par_5, tkl=DEFAULT_TKL, token=load_fwv_req_token) 
                 print(src_addr, dest_addr, ipv6_factory)
                 #coap_req = bytearray(b"`\x00\x00\x00\x00\x18\x11@  \xab\xcd\x00\x00\x00\x00\x02\x12K\x00)IZ\xef  \xab\xcd\x00\x00\x00\x00\x02\x12K\x00)\xb6\x8d\xc3\x163\x163\x00\x18\x04\xbaH\x01\x00\x01\xf7\xe7\xe8i\xcd\'R\x9f\xb3led")
@@ -2498,6 +2499,7 @@ class SpinelCliCmd(Cmd, SpinelCodec):
                         ipv6.COAP_METHOD_CODE_PUT, uri_path, option_list, par_0, par_1, par_2, par_3, par_4, par_5,
                         tkl=DEFAULT_TKL, token=coap_led_req_token)
                 else:
+                    print(option_list)
                     coap_req = self.ipv6_factory.build_coap_request(srcIPAddress, addr, coap_confirm,
                         ipv6.COAP_METHOD_CODE_POST, uri_path, option_list, par_0, par_1, par_2, par_3, par_4, par_5,
                         tkl=DEFAULT_TKL, token=coap_led_req_token)
