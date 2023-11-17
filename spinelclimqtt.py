@@ -191,7 +191,23 @@ def mqtt_subida(ip_to_mqtt,payload_to_mqtt,coap_to_mqtt):
         payload_to_mqtt=(int(payload_to_mqtt, 16))
         client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/TIEMPO",payload_to_mqtt)
     elif coap_to_mqtt == "WHALECOMM_CORTE":
-        client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/CORTE",23)
+        payload_to_mqtt = payload_to_mqtt[1:-1]
+        payload_to_mqtt = payload_to_mqtt.split(", ")
+        B1 = payload_to_mqtt[0]
+        B1 = int(B1)
+        B1 = hex(B1)
+        B1 = B1 [2:]
+        B2 = payload_to_mqtt[1]
+        B2 = int(B2)
+        B2 = hex(B2)
+        B2 = B2 [2:]
+        B3 = payload_to_mqtt[2]
+        B3 = int(B3)
+        B3 = hex(B3)
+        B3 = B3 [2:]
+        payload_to_mqtt =B3+B2+B1
+        payload_to_mqtt=(int(payload_to_mqtt, 16))
+        client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/CORTE",payload_to_mqtt)
         print("sube tiempo")
     elif coap_to_mqtt == "WHALECOMM_BETA":
         payload_to_mqtt = payload_to_mqtt[1:-1]
@@ -213,7 +229,23 @@ def mqtt_subida(ip_to_mqtt,payload_to_mqtt,coap_to_mqtt):
         client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/BETA",payload_to_mqtt)
         print("sube beta")
     elif coap_to_mqtt == "WHALECOMM_FACTURACION":
-        client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/FACTURACION",345)
+        payload_to_mqtt = payload_to_mqtt[1:-1]
+        payload_to_mqtt = payload_to_mqtt.split(", ")
+        B1 = payload_to_mqtt[0]
+        B1 = int(B1)
+        B1 = hex(B1)
+        B1 = B1 [2:]
+        B2 = payload_to_mqtt[1]
+        B2 = int(B2)
+        B2 = hex(B2)
+        B2 = B2 [2:]
+        B3 = payload_to_mqtt[2]
+        B3 = int(B3)
+        B3 = hex(B3)
+        B3 = B3 [2:]
+        payload_to_mqtt =B3+B2+B1
+        payload_to_mqtt=(int(payload_to_mqtt, 16))
+        client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/FACTURACION",payload_to_mqtt)
         print("sube facturacion")
     elif coap_to_mqtt == "WHALECOMM_ID":
         client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/ID",332)
@@ -538,17 +570,6 @@ class SpinelCliCmd(Cmd, SpinelCodec):
             #coap_req = bytearray(b"`\x00\x00\x00\x00\x18\x11@  \xab\xcd\x00\x00\x00\x00\x02\x12K\x00)IZ\xef  \xab\xcd\x00\x00\x00\x00\x02\x12K\x00)\xb6\x8d\xc3\x163\x163\x00\x18\x04\xbaH\x01\x00\x01\xf7\xe7\xe8i\xcd\'R\x9f\xb3led")
             ip_send_wc(coap_req)
             # instruccion a pyserial con comando
-        elif A  == "FACTURACION":
-            load_fwv_req_token = random.getrandbits(DEFAULT_TKL*8)
-            ipnodo="2020:abcd::212:4b00:29b6:8dde"
-            ipborderrouter="2020:abcd::212:4b00:2949:58b4"
-            src_addr = format(ipborderrouter)
-            dest_addr = format(ipnodo)
-            uri_path = "facturacion --facturacion c 1"
-            coap_req = ipv6_factory.build_coap_request(src_addr, dest_addr, ipv6.COAP_TYPE_CON, ipv6.COAP_METHOD_CODE_GET, uri_path, tkl=DEFAULT_TKL, token=load_fwv_req_token) 
-            print(src_addr, dest_addr, ipv6_factory)
-            #coap_req = bytearray(b"`\x00\x00\x00\x00\x18\x11@  \xab\xcd\x00\x00\x00\x00\x02\x12K\x00)IZ\xef  \xab\xcd\x00\x00\x00\x00\x02\x12K\x00)\xb6\x8d\xc3\x163\x163\x00\x18\x04\xbaH\x01\x00\x01\xf7\xe7\xe8i\xcd\'R\x9f\xb3led")
-            ip_send_wc(coap_req)
         else:
             b = A[0]
             print(b)
@@ -605,6 +626,26 @@ class SpinelCliCmd(Cmd, SpinelCodec):
                 dest_addr = format(ipnodo)
                 uri_path = "time --tiempo c 20 0 0 0 0 0"
                 coap_req = ipv6_factory.build_coap_request(src_addr, dest_addr, ipv6.COAP_TYPE_CON, ipv6.COAP_METHOD_CODE_GET, uri_path, tkl=DEFAULT_TKL, token=load_fwv_req_token) 
+                print(src_addr, dest_addr, ipv6_factory)
+                #coap_req = bytearray(b"`\x00\x00\x00\x00\x18\x11@  \xab\xcd\x00\x00\x00\x00\x02\x12K\x00)IZ\xef  \xab\xcd\x00\x00\x00\x00\x02\x12K\x00)\xb6\x8d\xc3\x163\x163\x00\x18\x04\xbaH\x01\x00\x01\xf7\xe7\xe8i\xcd\'R\x9f\xb3led")
+                ip_send_wc(coap_req)
+                print(A)
+            elif b == "f":
+                dato_int = int(A)
+                load_fwv_req_token = random.getrandbits(DEFAULT_TKL*8)
+                ipnodo="2020:abcd::212:4b00:29b6:8dde"
+                ipborderrouter="2020:abcd::212:4b00:2949:58b4"
+                src_addr = format(ipborderrouter)
+                dest_addr = format(ipnodo)
+                uri_path = "facturacion"
+                option_list = []
+                par_0 = A
+                par_1 = 0
+                par_2 = 0 
+                par_3 = 0
+                par_4 = 0 
+                par_5 = 0 
+                coap_req = ipv6_factory.build_coap_request(src_addr, dest_addr, ipv6.COAP_TYPE_CON, ipv6.COAP_METHOD_CODE_POST, uri_path, option_list, par_0, par_1, par_2, par_3, par_4, par_5, tkl=DEFAULT_TKL, token=load_fwv_req_token) 
                 print(src_addr, dest_addr, ipv6_factory)
                 #coap_req = bytearray(b"`\x00\x00\x00\x00\x18\x11@  \xab\xcd\x00\x00\x00\x00\x02\x12K\x00)IZ\xef  \xab\xcd\x00\x00\x00\x00\x02\x12K\x00)\xb6\x8d\xc3\x163\x163\x00\x18\x04\xbaH\x01\x00\x01\xf7\xe7\xe8i\xcd\'R\x9f\xb3led")
                 ip_send_wc(coap_req)
