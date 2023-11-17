@@ -194,7 +194,23 @@ def mqtt_subida(ip_to_mqtt,payload_to_mqtt,coap_to_mqtt):
         client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/CORTE",23)
         print("sube tiempo")
     elif coap_to_mqtt == "WHALECOMM_BETA":
-        client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/WHALECOMM_BETA",3454)
+        payload_to_mqtt = payload_to_mqtt[1:-1]
+        payload_to_mqtt = payload_to_mqtt.split(", ")
+        B1 = payload_to_mqtt[0]
+        B1 = int(B1)
+        B1 = hex(B1)
+        B1 = B1 [2:]
+        B2 = payload_to_mqtt[1]
+        B2 = int(B2)
+        B2 = hex(B2)
+        B2 = B2 [2:]
+        B3 = payload_to_mqtt[2]
+        B3 = int(B3)
+        B3 = hex(B3)
+        B3 = B3 [2:]
+        payload_to_mqtt =B3+B2+B1
+        payload_to_mqtt=(int(payload_to_mqtt, 16))
+        client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/BETA",payload_to_mqtt)
         print("sube beta")
     elif coap_to_mqtt == "WHALECOMM_FACTURACION":
         client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/FACTURACION",345)
@@ -202,6 +218,25 @@ def mqtt_subida(ip_to_mqtt,payload_to_mqtt,coap_to_mqtt):
     elif coap_to_mqtt == "WHALECOMM_ID":
         client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/ID",332)
         print("sube id")
+    elif coap_to_mqtt == "WHALECOMM_CALIBRACION":
+        payload_to_mqtt = payload_to_mqtt[1:-1]
+        payload_to_mqtt = payload_to_mqtt.split(", ")
+        B1 = payload_to_mqtt[0]
+        B1 = int(B1)
+        B1 = hex(B1)
+        B1 = B1 [2:]
+        B2 = payload_to_mqtt[1]
+        B2 = int(B2)
+        B2 = hex(B2)
+        B2 = B2 [2:]
+        B3 = payload_to_mqtt[2]
+        B3 = int(B3)
+        B3 = hex(B3)
+        B3 = B3 [2:]
+        payload_to_mqtt =B3+B2+B1
+        payload_to_mqtt=(int(payload_to_mqtt, 16))
+        client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/CALIBRACION",payload_to_mqtt)
+        print("sube id")    
 
 class IPv6Factory(object):
     coap_port_factory = {COAP_PORT: ipv6.CoAPFactory()}
@@ -539,7 +574,7 @@ class SpinelCliCmd(Cmd, SpinelCodec):
                 par_3 = 0
                 par_4 = 0 
                 par_5 = 0 
-                coap_req = ipv6_factory.build_coap_request(src_addr, dest_addr, ipv6.COAP_TYPE_CON, ipv6.COAP_METHOD_CODE_GET, uri_path, option_list, par_0, par_1, par_2, par_3, par_4, par_5, tkl=DEFAULT_TKL, token=load_fwv_req_token) 
+                coap_req = ipv6_factory.build_coap_request(src_addr, dest_addr, ipv6.COAP_TYPE_CON, ipv6.COAP_METHOD_CODE_POST, uri_path, option_list, par_0, par_1, par_2, par_3, par_4, par_5, tkl=DEFAULT_TKL, token=load_fwv_req_token) 
                 print(src_addr, dest_addr, ipv6_factory)
                 #coap_req = bytearray(b"`\x00\x00\x00\x00\x18\x11@  \xab\xcd\x00\x00\x00\x00\x02\x12K\x00)IZ\xef  \xab\xcd\x00\x00\x00\x00\x02\x12K\x00)\xb6\x8d\xc3\x163\x163\x00\x18\x04\xbaH\x01\x00\x01\xf7\xe7\xe8i\xcd\'R\x9f\xb3led")
                 ip_send_wc(coap_req)
@@ -565,7 +600,7 @@ class SpinelCliCmd(Cmd, SpinelCodec):
                 par_3 = 0
                 par_4 = 0 
                 par_5 = 0 
-                coap_req = ipv6_factory.build_coap_request(src_addr, dest_addr, ipv6.COAP_TYPE_CON, ipv6.COAP_METHOD_CODE_GET, uri_path, option_list, par_0, par_1, par_2, par_3, par_4, par_5, tkl=DEFAULT_TKL, token=load_fwv_req_token) 
+                coap_req = ipv6_factory.build_coap_request(src_addr, dest_addr, ipv6.COAP_TYPE_CON, ipv6.COAP_METHOD_CODE_POST, uri_path, option_list, par_0, par_1, par_2, par_3, par_4, par_5, tkl=DEFAULT_TKL, token=load_fwv_req_token) 
                 print(src_addr, dest_addr, ipv6_factory)
                 #coap_req = bytearray(b"`\x00\x00\x00\x00\x18\x11@  \xab\xcd\x00\x00\x00\x00\x02\x12K\x00)IZ\xef  \xab\xcd\x00\x00\x00\x00\x02\x12K\x00)\xb6\x8d\xc3\x163\x163\x00\x18\x04\xbaH\x01\x00\x01\xf7\xe7\xe8i\xcd\'R\x9f\xb3led")
                 ip_send_wc(coap_req)
