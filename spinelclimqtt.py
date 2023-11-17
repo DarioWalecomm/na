@@ -149,6 +149,11 @@ panid_list_get_token = None
 panid_list_set_token = None
 panid_list_bulk_set_token = None
 pan_rediscover_req_token = None
+
+
+Periodo_de_fac = 0
+
+
 def mqtt_subida(ip_to_mqtt,payload_to_mqtt,coap_to_mqtt):
     print("llego a al subida:")
     print(coap_to_mqtt)
@@ -245,11 +250,31 @@ def mqtt_subida(ip_to_mqtt,payload_to_mqtt,coap_to_mqtt):
         B3 = B3 [2:]
         payload_to_mqtt =B3+B2+B1
         payload_to_mqtt=(int(payload_to_mqtt, 16))
-        client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/FACTURACION",payload_to_mqtt)
+        if Periodo_de_fac == 0:
+            Periodo_de_fac == 0
+            client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/FACTURACION0",payload_to_mqtt)
+        if Periodo_de_fac == 1:
+            Periodo_de_fac == 0
+            client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/FACTURACION1",payload_to_mqtt)
+        if Periodo_de_fac == 2:
+            Periodo_de_fac == 0
+            client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/FACTURACION2",payload_to_mqtt)
+        if Periodo_de_fac == 3:
+            Periodo_de_fac == 0
+            client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/FACTURACION3",payload_to_mqtt)
+        if Periodo_de_fac == 4:
+            Periodo_de_fac == 0
+            client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/FACTURACION4",payload_to_mqtt)
+        if Periodo_de_fac == 5:
+            Periodo_de_fac == 0
+            client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/FACTURACION5",payload_to_mqtt)        
         print("sube facturacion")
     elif coap_to_mqtt == "WHALECOMM_ID":
+
         client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/ID",332)
-        print("sube id")
+
+
+        
     elif coap_to_mqtt == "WHALECOMM_CALIBRACION":
         payload_to_mqtt = payload_to_mqtt[1:-1]
         payload_to_mqtt = payload_to_mqtt.split(", ")
@@ -267,8 +292,7 @@ def mqtt_subida(ip_to_mqtt,payload_to_mqtt,coap_to_mqtt):
         B3 = B3 [2:]
         payload_to_mqtt =B3+B2+B1
         payload_to_mqtt=(int(payload_to_mqtt, 16))
-        client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/CALIBRACION",payload_to_mqtt)
-        print("sube id")    
+        client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/CALIBRACION",payload_to_mqtt)    
 class IPv6Factory(object):
     coap_port_factory = {COAP_PORT: ipv6.CoAPFactory()}
     ipv6_factory = ipv6.IPv6PacketFactory(
@@ -632,6 +656,7 @@ class SpinelCliCmd(Cmd, SpinelCodec):
                 print(A)
             elif b == "f":
                 dato_int = int(A)
+                Periodo_de_fac = dato_int
                 load_fwv_req_token = random.getrandbits(DEFAULT_TKL*8)
                 ipnodo="2020:abcd::212:4b00:29b6:8dde"
                 ipborderrouter="2020:abcd::212:4b00:2949:58b4"
@@ -639,7 +664,7 @@ class SpinelCliCmd(Cmd, SpinelCodec):
                 dest_addr = format(ipnodo)
                 uri_path = "facturacion"
                 option_list = []
-                par_0 = A
+                par_0 = dato_int
                 par_1 = 0
                 par_2 = 0 
                 par_3 = 0
