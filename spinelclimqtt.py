@@ -520,13 +520,26 @@ class SpinelCliCmd(Cmd, SpinelCodec):
             print(b)
             A = A[1:]
             if b == "t": # PARA TIEMPO
+                A = int(A)
+                A = hex (A)
+                A = A [2:]
+                A1 = A[0:2]
+                A2 = A[2:]
+                A1 =int(A1, 16)
+                A2 =int(A2, 16)
                 load_fwv_req_token = random.getrandbits(DEFAULT_TKL*8)
                 ipnodo="2020:abcd::212:4b00:29b6:8dde"
                 ipborderrouter="2020:abcd::212:4b00:2949:58b4"
                 src_addr = format(ipborderrouter)
                 dest_addr = format(ipnodo)
-                uri_path = "time --tiempo c 20 0 0 0 0 0"
-                coap_req = ipv6_factory.build_coap_request(src_addr, dest_addr, ipv6.COAP_TYPE_CON, ipv6.COAP_METHOD_CODE_GET, uri_path, tkl=DEFAULT_TKL, token=load_fwv_req_token) 
+                uri_path = "time"option_list = []
+                par_0 = A1
+                par_1 = A2
+                par_2 = 0 
+                par_3 = 0
+                par_4 = 0 
+                par_5 = 0 
+                coap_req = ipv6_factory.build_coap_request(src_addr, dest_addr, ipv6.COAP_TYPE_CON, ipv6.COAP_METHOD_CODE_GET, uri_path, option_list, par_0, par_1, par_2, par_3, par_4, par_5, tkl=DEFAULT_TKL, token=load_fwv_req_token) 
                 print(src_addr, dest_addr, ipv6_factory)
                 #coap_req = bytearray(b"`\x00\x00\x00\x00\x18\x11@  \xab\xcd\x00\x00\x00\x00\x02\x12K\x00)IZ\xef  \xab\xcd\x00\x00\x00\x00\x02\x12K\x00)\xb6\x8d\xc3\x163\x163\x00\x18\x04\xbaH\x01\x00\x01\xf7\xe7\xe8i\xcd\'R\x9f\xb3led")
                 ip_send_wc(coap_req)
