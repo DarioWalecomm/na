@@ -517,15 +517,20 @@ class SpinelCliCmd(Cmd, SpinelCodec):
                 ip_send_wc(coap_req)
                 print(A)
             elif b == "b": #PARA BETA
+                A = int(A)
+                A = hex (A)
+                A = A [2:]
+                A1 = A[0:2]
+                A2 = A[2:]
                 load_fwv_req_token = random.getrandbits(DEFAULT_TKL*8)
                 ipnodo="2020:abcd::212:4b00:29b6:8dde"
                 ipborderrouter="2020:abcd::212:4b00:2949:58b4"
                 src_addr = format(ipborderrouter)
                 dest_addr = format(ipnodo)
-                uri_path = "time"
-                option_list = "--beta"
-                par_0 = 10
-                par_1 = 27
+                uri_path = "beta"
+                option_list = []
+                par_0 = A2
+                par_1 = A1
                 par_2 = 0 
                 par_3 = 0
                 par_4 = 0 
