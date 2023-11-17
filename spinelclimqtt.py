@@ -173,8 +173,23 @@ def mqtt_subida(ip_to_mqtt,payload_to_mqtt,coap_to_mqtt):
         payload_to_mqtt=(int(payload_to_mqtt, 16))
         client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/LITROS",payload_to_mqtt)
     if coap_to_mqtt == "WHALECOMM_TIEMPO":
-        client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/TIEMPO",60)
-        print("sube tiempo")
+        payload_to_mqtt = payload_to_mqtt[1:-1]
+        payload_to_mqtt = payload_to_mqtt.split(", ")
+        B1 = payload_to_mqtt[0]
+        B1 = int(B1)
+        B1 = hex(B1)
+        B1 = B1 [2:]
+        B2 = payload_to_mqtt[1]
+        B2 = int(B2)
+        B2 = hex(B2)
+        B2 = B2 [2:]
+        B3 = payload_to_mqtt[2]
+        B3 = int(B3)
+        B3 = hex(B3)
+        B3 = B3 [2:]
+        payload_to_mqtt =B3+B2+B1
+        payload_to_mqtt=(int(payload_to_mqtt, 16))
+        client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/TIEMPO",payload_to_mqtt)
     elif coap_to_mqtt == "WHALECOMM_CORTE":
         client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/CORTE",23)
         print("sube tiempo")
@@ -522,6 +537,8 @@ class SpinelCliCmd(Cmd, SpinelCodec):
                 A = A [2:]
                 A1 = A[0:2]
                 A2 = A[2:]
+                A1 =int(A1, 16)
+                A2 =int(A2, 16)
                 load_fwv_req_token = random.getrandbits(DEFAULT_TKL*8)
                 ipnodo="2020:abcd::212:4b00:29b6:8dde"
                 ipborderrouter="2020:abcd::212:4b00:2949:58b4"
@@ -529,8 +546,8 @@ class SpinelCliCmd(Cmd, SpinelCodec):
                 dest_addr = format(ipnodo)
                 uri_path = "beta"
                 option_list = []
-                par_0 = A2
-                par_1 = A1
+                par_0 = A1
+                par_1 = A2
                 par_2 = 0 
                 par_3 = 0
                 par_4 = 0 
