@@ -237,7 +237,6 @@ def mqtt_subida(ip_to_mqtt,payload_to_mqtt,coap_to_mqtt):
         payload_to_mqtt=(int(payload_to_mqtt, 16))
         client.publish("dtck-pub/gateway-1/f0965f63-44ea-4b87-a2fc-469c45841823/CALIBRACION",payload_to_mqtt)
         print("sube id")    
-
 class IPv6Factory(object):
     coap_port_factory = {COAP_PORT: ipv6.CoAPFactory()}
     ipv6_factory = ipv6.IPv6PacketFactory(
@@ -568,8 +567,8 @@ class SpinelCliCmd(Cmd, SpinelCodec):
                 src_addr = format(ipborderrouter)
                 dest_addr = format(ipnodo)
                 uri_path = "time"option_list = []
-                par_0 = A1
-                par_1 = A2
+                par_0 = A2
+                par_1 = A
                 par_2 = 0 
                 par_3 = 0
                 par_4 = 0 
@@ -580,13 +579,9 @@ class SpinelCliCmd(Cmd, SpinelCodec):
                 ip_send_wc(coap_req)
                 print(A)
             elif b == "b": #PARA BETA
-                A = int(A)
-                A = hex (A)
-                A = A [2:]
-                A1 = A[0:2]
-                A2 = A[2:]
-                A1 =int(A1, 16)
-                A2 =int(A2, 16)
+                dato_int = int(A)
+                A1 = dato_int>>8
+                A0 = dato_int & 0x00FF
                 load_fwv_req_token = random.getrandbits(DEFAULT_TKL*8)
                 ipnodo="2020:abcd::212:4b00:29b6:8dde"
                 ipborderrouter="2020:abcd::212:4b00:2949:58b4"
@@ -595,7 +590,7 @@ class SpinelCliCmd(Cmd, SpinelCodec):
                 uri_path = "beta"
                 option_list = []
                 par_0 = A1
-                par_1 = A2
+                par_1 = A0
                 par_2 = 0 
                 par_3 = 0
                 par_4 = 0 
